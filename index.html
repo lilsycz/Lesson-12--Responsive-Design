@@ -12,16 +12,55 @@
 </head>
 <body>
 
+  <!-- NAV -->
   <nav class="nav">
     <a class="nav__logo" href="#">Head.</a>
+
+    <!-- Desktop: horizontal links + dropdown -->
     <div class="nav__links">
       <a href="#">Works</a>
       <a href="#">Services</a>
       <a href="#">Contacts</a>
+      <div class="nav__dropdown">
+        <button class="nav__dots" id="dropdownBtn" aria-label="More">&#8226;&#8226;&#8226;</button>
+        <div class="nav__dropdown-menu" id="dropdownMenu">
+          <a href="#">About</a>
+          <a href="#">Blog</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
     </div>
-    <span class="nav__dots">&#8226;&#8226;&#8226;</span>
+
+    <!-- Tablet + Mobile: hamburger button -->
+    <button class="nav__burger" id="burgerBtn" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
 
+  <!-- TABLET: Curtain / overlay menu -->
+  <div class="curtain-menu" id="curtainMenu">
+    <button class="curtain-menu__close" id="curtainClose" aria-label="Close menu">&#x2715;</button>
+    <nav class="curtain-menu__links">
+      <a href="#">Works</a>
+      <a href="#">Services</a>
+      <a href="#">Contacts</a>
+    </nav>
+  </div>
+
+  <!-- MOBILE: Sidebar menu -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <div class="sidebar-menu" id="sidebarMenu">
+    <button class="sidebar-menu__close" id="sidebarClose" aria-label="Close menu">&#x2715;</button>
+    <nav class="sidebar-menu__links">
+      <a href="#">Works</a>
+      <a href="#">Services</a>
+      <a href="#">Contacts</a>
+    </nav>
+  </div>
+
+  <!-- HERO -->
   <main class="hero">
     <h1 class="hero__title">Japan</h1>
     <p class="hero__text">
@@ -32,6 +71,47 @@
       <img src="image/Image.png" alt="Mount Fuji, Japan" />
     </div>
   </main>
+
+  <script>
+    const burger     = document.getElementById('burgerBtn');
+    const curtain    = document.getElementById('curtainMenu');
+    const curtainX   = document.getElementById('curtainClose');
+    const sidebar    = document.getElementById('sidebarMenu');
+    const sidebarX   = document.getElementById('sidebarClose');
+    const overlay    = document.getElementById('sidebarOverlay');
+    const dotsBtn    = document.getElementById('dropdownBtn');
+    const dropMenu   = document.getElementById('dropdownMenu');
+
+    /* ── Desktop dropdown (>1024px) ── */
+    dotsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropMenu.classList.toggle('open');
+    });
+    document.addEventListener('click', () => dropMenu.classList.remove('open'));
+
+    /* ── Burger: choose mode by viewport ── */
+    burger.addEventListener('click', () => {
+      if (window.innerWidth <= 600) {
+        // Mobile → sidebar
+        sidebar.classList.add('open');
+        overlay.classList.add('open');
+      } else {
+        // Tablet → curtain overlay
+        curtain.classList.add('open');
+      }
+    });
+
+    /* ── Close curtain ── */
+    curtainX.addEventListener('click', () => curtain.classList.remove('open'));
+
+    /* ── Close sidebar ── */
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('open');
+    }
+    sidebarX.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+  </script>
 
 </body>
 </html>
